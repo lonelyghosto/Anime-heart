@@ -1,0 +1,49 @@
+
+name: Build Anime Heart APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Extract project
+        run: unzip -q anime-heart-github-ready.zip -d extracted
+
+      - name: Install dependencies
+        working-directory: extracted/anime-heart
+        run: npm install
+
+      - name: Build app
+        working-directory: extracted/anime-heart
+        run: npm run build
+
+      - name: Create Android project
+        working-directory: extracted/anime-heart
+        run: npx cap add android
+
+      - name: Build APK
+        working-directory: extracted/anime-heart/android
+        run: ./gradlew assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Anime-Heart-APK
+          path: extracted/anime-heart/android/app/build/outputs/apk/debug/app-debug.apk
+          
