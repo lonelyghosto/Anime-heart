@@ -29,6 +29,10 @@ jobs:
       - name: Install dependencies
         working-directory: extracted/anime-heart
         run: npm install
+            
+      - name: Install TypeScript
+        working-directory: extracted/anime-heart
+        run: npm install --save-dev typescript
 
       - name: Build app
         working-directory: extracted/anime-heart
