@@ -21,7 +21,7 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
 
       - name: Extract project
         run: unzip -q anime-heart-github-ready.zip -d extracted
